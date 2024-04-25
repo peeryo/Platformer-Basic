@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://22o7geln7opk"]
+[gd_scene load_steps=27 format=3 uid="uid://22o7geln7opk"]
 
 [ext_resource type="Texture2D" uid="uid://dk416gpd1gdor" path="res://assets/Palm Tree Island/Sprites/Terrain/Terrain (32x32).png" id="1_3uqkv"]
 [ext_resource type="Texture2D" uid="uid://5l2cixw2olcu" path="res://assets/Captain Clown Nose/Captain Clown Nose without Sword/04-Fall/Fall 01.png" id="1_jsquf"]
@@ -17,6 +17,11 @@
 [ext_resource type="Texture2D" uid="uid://dxyb11i6okpvg" path="res://assets/Captain Clown Nose/Captain Clown Nose without Sword/02-Run/Run 04.png" id="12_3vpa6"]
 [ext_resource type="Texture2D" uid="uid://ds1dt7j5a67ew" path="res://assets/Captain Clown Nose/Captain Clown Nose without Sword/02-Run/Run 05.png" id="13_hn7pc"]
 [ext_resource type="Texture2D" uid="uid://7hpx43jbmct2" path="res://assets/Captain Clown Nose/Captain Clown Nose without Sword/02-Run/Run 06.png" id="14_nted0"]
+[ext_resource type="Script" path="res://scripts/fsm/fsm.gd" id="18_kakbf"]
+[ext_resource type="Script" path="res://scripts/Player/states/player_idle_state.gd" id="19_hqfwx"]
+[ext_resource type="Script" path="res://scripts/Player/states/player_run_state.gd" id="20_kqrs8"]
+[ext_resource type="Script" path="res://scripts/Player/states/player_jump_state.gd" id="21_weitm"]
+[ext_resource type="Script" path="res://scripts/Player/states/player_fall_state.gd" id="22_rkpq1"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_g1oqw"]
 texture = ExtResource("1_3uqkv")
@@ -563,7 +568,7 @@ position = Vector2(65, 0)
 position = Vector2(1, 0)
 tile_set = SubResource("TileSet_ckuf4")
 format = 2
-layer_0/tile_data = PackedInt32Array(262150, 65536, 1, 262151, 65536, 1, 7, 655360, 3, 6, 65536, 4, 5, 65536, 4, 4, 65536, 4, 3, 65536, 4, 2, 65536, 4, 1, 65536, 4, 327680, 65536, 4, 327681, 65536, 4, 327682, 65536, 4, 327683, 65536, 4, 327684, 655360, 4, 327685, 65536, 2, 327686, 65536, 2, 327687, 65536, 2, 8, 65536, 0, 65544, 65536, 1, 196616, 65536, 1, 262152, 65536, 1, 327688, 65536, 2, 327689, 131072, 2, 262153, 131072, 1, 196617, 131072, 1, 131081, 131072, 1, 65545, 131072, 1, 9, 131072, 0, 0, 65536, 4, 196615, 65536, 1, 262149, 458752, 1, 196614, 458752, 1, 131079, 458752, 1, 131080, 65536, 1, 262148, 0, 0, 196613, 0, 0, 131078, 0, 0, 65543, 0, 1, 393215, 65536, 4, 393214, 983040, 4, 327678, 262144, 1, 262142, 786432, 3, 196606, 262144, 1, 131070, 262144, 1, 65534, 983040, 3, 65535, 65536, 4, 262143, 65536, 4, 196608, 131072, 4, 131075, 262144, 4)
+layer_0/tile_data = PackedInt32Array(262150, 65536, 1, 262151, 65536, 1, 7, 655360, 3, 6, 65536, 4, 5, 65536, 4, 4, 65536, 4, 3, 65536, 4, 2, 65536, 4, 1, 65536, 4, 327680, 65536, 4, 327681, 65536, 4, 327682, 655360, 4, 327683, 65536, 2, 327684, 65536, 2, 327685, 65536, 2, 327686, 65536, 2, 327687, 65536, 2, 8, 65536, 0, 65544, 65536, 1, 196616, 65536, 1, 262152, 65536, 1, 327688, 65536, 2, 327689, 131072, 2, 262153, 131072, 1, 196617, 131072, 1, 131081, 131072, 1, 65545, 131072, 1, 9, 131072, 0, 0, 65536, 4, 196615, 65536, 1, 262149, 65536, 1, 196614, 65536, 1, 131079, 458752, 1, 131080, 65536, 1, 262148, 458752, 1, 196613, 458752, 1, 131078, 65536, 0, 65543, 0, 1, 393215, 65536, 4, 393214, 983040, 4, 327678, 262144, 1, 262142, 262144, 1, 196606, 262144, 1, 131070, 262144, 1, 65534, 983040, 3, 65535, 65536, 4, 262147, 65536, 0, 196612, 0, 0, 131077, 0, 0, 262146, 0, 0)
 
 [node name="Player" type="CharacterBody2D" parent="."]
 position = Vector2(100, 94)
@@ -579,3 +584,23 @@ autoplay = "idle"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 position = Vector2(0, 2)
 shape = SubResource("RectangleShape2D_b14qm")
+
+[node name="FSM" type="Node" parent="Player"]
+script = ExtResource("18_kakbf")
+
+[node name="Idle" type="Node" parent="Player/FSM"]
+script = ExtResource("19_hqfwx")
+
+[node name="Run" type="Node" parent="Player/FSM"]
+script = ExtResource("20_kqrs8")
+
+[node name="Jump" type="Node" parent="Player/FSM"]
+script = ExtResource("21_weitm")
+
+[node name="Fall" type="Node" parent="Player/FSM"]
+script = ExtResource("22_rkpq1")
+
+[node name="CoyoteTimer" type="Timer" parent="Player/FSM/Fall"]
+process_callback = 0
+wait_time = 0.1
+one_shot = true

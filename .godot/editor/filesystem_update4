@@ -1,2 +1,9 @@
 res://scenes/main.tscn
 res://scripts/Player/player.gd
+res://scripts/fsm/state.gd
+res://scripts/fsm/fsm.gd
+res://scripts/Player/states/player_idle_state.gd
+res://scripts/Player/states/player_run_state.gd
+res://scripts/Player/states/player_jump_state.gd
+res://scripts/Player/states/player_fall_state.gd
+res://scripts/Player/states/player_base_state.gd
