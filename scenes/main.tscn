@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=3 uid="uid://22o7geln7opk"]
+[gd_scene load_steps=61 format=3 uid="uid://22o7geln7opk"]
 
 [ext_resource type="Texture2D" uid="uid://dk416gpd1gdor" path="res://assets/Palm Tree Island/Sprites/Terrain/Terrain (32x32).png" id="1_3uqkv"]
 [ext_resource type="Texture2D" uid="uid://5l2cixw2olcu" path="res://assets/Captain Clown Nose/Captain Clown Nose without Sword/04-Fall/Fall 01.png" id="1_jsquf"]
@@ -52,7 +52,9 @@
 [ext_resource type="Texture2D" uid="uid://bs1rlx60lraoo" path="res://assets/Captain Clown Nose/Captain Clown Nose with Sword/10-Run Sword/Run Sword 04.png" id="43_1327a"]
 [ext_resource type="Texture2D" uid="uid://belxvm0g5qcno" path="res://assets/Captain Clown Nose/Captain Clown Nose with Sword/10-Run Sword/Run Sword 05.png" id="44_hgsrf"]
 [ext_resource type="Texture2D" uid="uid://j3mgql2buqbm" path="res://assets/Captain Clown Nose/Captain Clown Nose with Sword/10-Run Sword/Run Sword 06.png" id="45_tvs6e"]
+[ext_resource type="AudioStream" uid="uid://8fjyy3g15mc7" path="res://assets/Steps_1.wav" id="49_j0f8d"]
 [ext_resource type="AudioStream" uid="uid://bo5tbvxda2bms" path="res://assets/Jump_3.wav" id="50_srqds"]
+[ext_resource type="AudioStream" uid="uid://dyibgygkfchd3" path="res://assets/Steps_2.wav" id="52_vtkia"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_0r3e6"]
 animations = [{
@@ -849,6 +851,13 @@ script = ExtResource("19_hqfwx")
 [node name="Run" type="Node" parent="Player/FSM"]
 script = ExtResource("20_kqrs8")
 
+[node name="FootstepsSFX" type="AudioStreamPlayer" parent="Player/FSM/Run"]
+stream = ExtResource("49_j0f8d")
+bus = &"SFX"
+
+[node name="FootstepsTimer" type="Timer" parent="Player/FSM/Run"]
+wait_time = 0.3
+
 [node name="Jump" type="Node" parent="Player/FSM"]
 script = ExtResource("21_weitm")
 
@@ -863,6 +872,10 @@ script = ExtResource("22_rkpq1")
 process_callback = 0
 wait_time = 0.1
 one_shot = true
+
+[node name="LandingSFX" type="AudioStreamPlayer" parent="Player/FSM/Fall"]
+stream = ExtResource("52_vtkia")
+bus = &"SFX"
 
 [node name="InputHandler" type="Node2D" parent="Player"]
 script = ExtResource("23_pgtq0")
@@ -882,3 +895,5 @@ editor_draw_drag_margin = true
 
 [node name="Sword" parent="." instance=ExtResource("37_a750w")]
 position = Vector2(-18, 147)
+
+[connection signal="timeout" from="Player/FSM/Run/FootstepsTimer" to="Player/FSM/Run" method="_on_footsteps_timer_timeout"]
